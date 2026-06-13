@@ -187,7 +187,8 @@ const EmployeeManager = () => {
       address: '',
       emergency_contact: '',
       blood_group: '',
-      marital_status: ''
+      marital_status: '',
+      salary_per_day: ''
     });
     setAadharFile(null);
     setPanFile(null);
@@ -304,7 +305,8 @@ const EmployeeManager = () => {
       address: employee.address || '',
       emergency_contact: employee.emergency_contact || '',
       blood_group: employee.blood_group || '',
-      marital_status: employee.marital_status || ''
+      marital_status: employee.marital_status || '',
+      salary_per_day: employee.salary_per_day || ''
     });
     setExistingFiles({
       aadhar_attachment: employee.aadhar_attachment,
@@ -684,6 +686,19 @@ const EmployeeManager = () => {
                         onChange={handleInputChange}
                         style={styles.input}
                         placeholder="Engineering, HR, Sales, etc."
+                      />
+                    </div>
+                    
+                    <div style={styles.formGroup}>
+                      <label style={styles.label}>Salary per Day (₹)</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        name="salary_per_day"
+                        value={formData.salary_per_day}
+                        onChange={handleInputChange}
+                        style={styles.input}
+                        placeholder="e.g. 500"
                       />
                     </div>
                     

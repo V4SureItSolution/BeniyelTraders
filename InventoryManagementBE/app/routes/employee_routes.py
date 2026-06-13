@@ -355,6 +355,7 @@ def create_employee():
             current_company=current_company,
             company_id=company_id if company_id else None,
             user_type=user_type,
+            salary_per_day=request.form.get('salary_per_day', 0.0, type=float),
             aadhar_card_number=request.form.get('aadhar_card_number'),
             pan_card_number=request.form.get('pan_card_number'),
             address=request.form.get('address'),
@@ -462,10 +463,13 @@ def update_employee(id):
             employee.email = email
         if request.form.get('phone_number'):
             employee.phone_number = request.form.get('phone_number')
-        if request.form.get('department'):
-            employee.department = request.form.get('department')
-        if request.form.get('designation'):
-            employee.designation = request.form.get('designation')
+        if 'department' in request.form: employee.department = request.form.get('department')
+        if 'designation' in request.form: employee.designation = request.form.get('designation')
+        if 'date_of_joining' in request.form: employee.date_of_joining = request.form.get('date_of_joining')
+        if 'current_company' in request.form: employee.current_company = request.form.get('current_company')
+        if 'company_id' in request.form: employee.company_id = request.form.get('company_id')
+        if 'user_type' in request.form: employee.user_type = request.form.get('user_type')
+        if 'salary_per_day' in request.form: employee.salary_per_day = request.form.get('salary_per_day', 0.0, type=float)
         if request.form.get('aadhar_card_number'):
             employee.aadhar_card_number = request.form.get('aadhar_card_number')
         if request.form.get('pan_card_number'):

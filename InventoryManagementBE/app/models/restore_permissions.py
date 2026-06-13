@@ -57,14 +57,17 @@ SUBMODULES = [
     
     # Billing module
     "create_bill", "bill_reports", "service_bill", "service_bills", 
-    "quotations", "invoices", "discount",
+    "quotations", "invoices", "discount", "hotel_invoice", "collection_cash",
     
     # Suppliers module
     "add_supplier", "supplier_list", "payment_tracking", "employee", 
     "user_type", "attendance", "company",
     
     # CRM module
-    "enquiries", "customer_details", "usersettings"
+    "enquiries", "customer_details", "usersettings",
+    
+    # Finance and Documents
+    "expenses", "documents"
 ]
 
 # Define permission presets for different user types

@@ -8,6 +8,7 @@ pymysql.install_as_MySQLdb()
 class Config:
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root123@localhost/m3cars'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    DB_PASSWORD = 'root123'
 
     # File upload configuration
     UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')

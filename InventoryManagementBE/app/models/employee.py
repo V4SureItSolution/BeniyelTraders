@@ -35,6 +35,9 @@ class Employee(db.Model):
     aadhar_attachment = db.Column(db.String(255))
     pan_attachment = db.Column(db.String(255))
     
+    # Salary
+    salary_per_day = db.Column(db.Float, default=0.0)
+    
     # Timestamps
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -68,6 +71,7 @@ class Employee(db.Model):
             'marital_status': self.marital_status,
             'aadhar_attachment': self.aadhar_attachment,
             'pan_attachment': self.pan_attachment,
+            'salary_per_day': round(self.salary_per_day or 0, 2),
             'created_at': self.created_at.isoformat() if self.created_at else None,
             'updated_at': self.updated_at.isoformat() if self.updated_at else None
         }

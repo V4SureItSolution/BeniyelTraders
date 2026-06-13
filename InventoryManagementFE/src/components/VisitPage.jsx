@@ -77,7 +77,7 @@ const VisitBillPage = () => {
   
   // Company/Shop Details from Backend
   const [companyDetails, setCompanyDetails] = useState({
-    name: "Avva Inventory",
+    name: "Beniyel Traders",
     address: "No.71, M.T.H.road (Opp padi post office)",
     city: "Padi, Chennai - 600 050",
     phone: "98657 09626",
@@ -143,9 +143,7 @@ const VisitBillPage = () => {
 
   // Load bills on component mount
   useEffect(() => {
-    if (selectedCompanyId) {
-      fetchBills();
-    }
+    fetchBills();
   }, [selectedCompanyId]);
 
   // Apply filters whenever filter criteria change
@@ -183,7 +181,7 @@ const VisitBillPage = () => {
       } else {
         // Use default company details
         setCompanyDetails({
-          name: "Avva Inventory",
+          name: "Beniyel Traders",
           address: "No.71, M.T.H.road (Opp padi post office)",
           city: "Padi, Chennai - 600 050",
           phone: "98657 09626",
@@ -198,7 +196,7 @@ const VisitBillPage = () => {
       showMessage("error", "❌ Failed to fetch company details");
       // Use default company details
       setCompanyDetails({
-        name: "Avva Inventory",
+        name: "Beniyel Traders",
         address: "No.71, M.T.H.road (Opp padi post office)",
         city: "Padi, Chennai - 600 050",
         phone: "93423 01582",
@@ -220,7 +218,7 @@ const VisitBillPage = () => {
       
       const company = response.data;
       setCompanyDetails({
-        name: company.name || "Avva Inventory",
+        name: company.name || "Beniyel Traders",
         address: company.address || "No.71, M.T.H.road (Opp padi post office)",
         city: company.city || "Padi, Chennai - 600 050",
         phone: company.phone || "93423 01582",
@@ -448,13 +446,18 @@ const VisitBillPage = () => {
       
       console.log('Bill Details Response:', response.data);
       
-      // Process the bill data
+      // Process the bill data - handle both nested (to_dict) and flat formats
       const billData = response.data;
       
-      // Handle discount - it could be amount or percentage
-      let discountValue = parseFloat(billData.discount || billData.discount_amount || 0);
-      let discountType = billData.discountType || billData.discount_type || 'amount';
-      let subtotal = parseFloat(billData.subtotal || billData.sub_total || 0);
+      // Extract from nested or flat format
+      const customer = billData.customer || {};
+      const summary = billData.summary || {};
+      const payment = billData.payment || {};
+      
+      // Handle discount - nested format from to_dict
+      let discountValue = parseFloat(summary.discount || billData.discount || billData.discount_amount || 0);
+      let discountType = summary.discountType || billData.discountType || billData.discount_type || 'amount';
+      let subtotal = parseFloat(summary.subtotal || billData.subtotal || billData.sub_total || 0);
       
       // Calculate actual discount amount
       let discountAmount = discountValue;
@@ -465,25 +468,26 @@ const VisitBillPage = () => {
       const processedBill = {
         id: billData.id || billData._id || billId,
         billNumber: billData.billNumber || billData.bill_number || billData.billNo || 'N/A',
-        customerName: billData.customerName || billData.customer_name || billData.customer?.name || 'Walk-in Customer',
-        customerPhone: billData.customerPhone || billData.customer_phone || billData.customer?.phone || '',
-        customerEmail: billData.customerEmail || billData.customer_email || billData.customer?.email || '',
-        customerGst: billData.customerGst || billData.customer_gst || billData.customer?.gst || '',
-        customerAddress: billData.customerAddress || billData.customer_address || billData.customer?.address || '',
-        customerType: billData.customerType || billData.customer_type || billData.customer?.type || 'external',
+        customerName: customer.name || billData.customerName || billData.customer_name || 'Walk-in Customer',
+        customerPhone: customer.phone || billData.customerPhone || billData.customer_phone || '',
+        customerEmail: customer.email || billData.customerEmail || billData.customer_email || '',
+        customerGst: customer.gst || billData.customerGst || billData.customer_gst || '',
+        customerAddress: customer.address || billData.customerAddress || billData.customer_address || '',
+        customerType: customer.type || billData.customerType || billData.customer_type || 'external',
         subtotal: subtotal,
         discountValue: discountValue,
         discountAmount: discountAmount,
         discountType: discountType,
-        tax: parseFloat(billData.tax || billData.taxAmount || 0),
-        taxType: billData.taxType || billData.tax_type || 'percentage',
-        total: parseFloat(billData.total || billData.grandTotal || billData.amount || 0),
-        paidAmount: parseFloat(billData.paidAmount || billData.paid_amount || billData.paid || 0),
-        changeAmount: parseFloat(billData.changeAmount || billData.change_amount || billData.change || 0),
-        paymentMethod: billData.paymentMethod || billData.payment_method || billData.payment?.method || 'cash',
+        tax: parseFloat(summary.tax || billData.tax || billData.taxAmount || 0),
+        taxType: summary.taxType || billData.taxType || billData.tax_type || 'percentage',
+        total: parseFloat(summary.total || billData.total || billData.grandTotal || billData.amount || 0),
+        paidAmount: parseFloat(payment.paidAmount || billData.paidAmount || billData.paid_amount || billData.paid || 0),
+        changeAmount: parseFloat(payment.changeAmount || billData.changeAmount || billData.change_amount || billData.change || 0),
+        paymentMethod: payment.method || billData.paymentMethod || billData.payment_method || 'cash',
         createdAt: billData.createdAt || billData.created_at || billData.date || new Date().toISOString(),
         updatedAt: billData.updatedAt || billData.updated_at,
         createdBy: billData.createdBy || billData.created_by,
+        createdByName: billData.createdByName || billData.created_by_name,
         items: Array.isArray(billData.items) ? billData.items.map(item => ({
           id: item.id || item._id,
           productId: item.productId || item.product_id || item.product,
@@ -511,6 +515,7 @@ const VisitBillPage = () => {
       processedBill.dueAmount = processedBill.total - processedBill.paidAmount;
       
       console.log('Processed Bill Details:', processedBill);
+      console.log('Items count:', processedBill.items.length);
       
       setSelectedBill(processedBill);
       setShowBillModal(true);
@@ -1022,7 +1027,7 @@ const VisitBillPage = () => {
         </head>
         <body>
           <div class="header">
-            <img src="/avva-logo.jpeg" class="logo" alt="Avva Inventory Logo" />
+            <img src="/avva-logo.jpeg" class="logo" alt="Beniyel Traders Logo" />
             <h1>${companyDetails.name}</h1>
             <p>${companyDetails.address}</p>
             <p>${companyDetails.city}</p>

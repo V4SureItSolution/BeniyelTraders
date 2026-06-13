@@ -34,6 +34,7 @@ import {
   FaFileContract,
   FaReceipt,
   FaChartLine,
+  FaMoneyCheckAlt,
 } from "react-icons/fa";
 
 const Sidebar = ({ isOpen }) => {
@@ -181,7 +182,7 @@ const Sidebar = ({ isOpen }) => {
       <style>{scrollbarStyles}</style>
       <div style={styles.sidebar} className="sidebar">
         <div style={styles.logoSection}>
-          {isOpen ? "Avva Inventory" : "M3"}
+          {isOpen ? "Beniyel Traders" : "M3"}
         </div>
 
         <div style={styles.navContainer}>
@@ -253,7 +254,7 @@ const Sidebar = ({ isOpen }) => {
           )}
 
           {/* Billing Section */}
-          {isSectionVisible(["create_bill", "bill_reports", "service_bill", "service_bills", "sales_bills", "quotations", "invoices", "discount"]) && (
+          {isSectionVisible(["create_bill", "bill_reports", "service_bill", "service_bills", "sales_bills", "quotations", "invoices", "discount", "hotel_invoice", "collection_cash"]) && (
             <>
               <div style={styles.sectionTitle}>Billing</div>
               {hasPermission("create_bill") && (
@@ -298,12 +299,19 @@ const Sidebar = ({ isOpen }) => {
                 </NavLink>
               )}
 
-              {/* {hasPermission("invoices") && (
-                <NavLink to="/invoice" style={getLinkStyle}>
-                  <FaFileInvoiceDollar style={styles.icon} />
-                  <span style={styles.text}>Invoices</span>
+              {hasPermission("hotel_invoice") && (
+                <NavLink to="/hotel-invoice" style={getLinkStyle}>
+                  <FaBuilding style={styles.icon} />
+                  <span style={styles.text}>Hotel Invoice</span>
                 </NavLink>
-              )} */}
+              )}
+
+              {hasPermission("collection_cash") && (
+                <NavLink to="/collection-cash" style={getLinkStyle}>
+                  <FaMoneyBillWave style={styles.icon} />
+                  <span style={styles.text}>Collection Cash</span>
+                </NavLink>
+              )}
 
               {hasPermission("discount") && (
                 <NavLink to="/discount" style={getLinkStyle}>
@@ -315,7 +323,7 @@ const Sidebar = ({ isOpen }) => {
           )}
 
           {/* Supplier Section */}
-          {isSectionVisible(["add_supplier", "supplier_list", "payment_tracking", "employee", "user_type", "attendance", "company"]) && (
+          {isSectionVisible(["add_supplier", "supplier_list", "payment_tracking", "employee", "user_type", "attendance", "salary", "company"]) && (
             <>
               <div style={styles.sectionTitle}>Suppliers & HR</div>
               {hasPermission("add_supplier") && (
@@ -353,12 +361,19 @@ const Sidebar = ({ isOpen }) => {
                 </NavLink>
               )}
 
-              {/* {hasPermission("attendance") && (
+              {hasPermission("attendance") && (
                 <NavLink to="/attendance" style={getLinkStyle}>
                   <FaCalendarCheck style={styles.icon} />
                   <span style={styles.text}>Attendance</span>
                 </NavLink>
-              )} */}
+              )}
+
+              {hasPermission("salary") && (
+                <NavLink to="/salary" style={getLinkStyle}>
+                  <FaMoneyCheckAlt style={styles.icon} />
+                  <span style={styles.text}>Salary</span>
+                </NavLink>
+              )}
 
               {hasPermission("company") && (
                 <NavLink to="/company" style={getLinkStyle}>
@@ -391,6 +406,32 @@ const Sidebar = ({ isOpen }) => {
                 <NavLink to="/usersettings" style={getLinkStyle}>
                   <FaUserCog style={styles.icon} />
                   <span style={styles.text}>User Settings</span>
+                </NavLink>
+              )}
+            </>
+          )}
+
+          {/* Finance Section */}
+          {isSectionVisible(["expenses"]) && (
+            <>
+              <div style={styles.sectionTitle}>Finance</div>
+              {hasPermission("expenses") && (
+                <NavLink to="/expenses" style={getLinkStyle}>
+                  <FaMoneyBillWave style={styles.icon} />
+                  <span style={styles.text}>Expenses</span>
+                </NavLink>
+              )}
+            </>
+          )}
+
+          {/* Documents Section */}
+          {isSectionVisible(["documents"]) && (
+            <>
+              <div style={styles.sectionTitle}>Documents</div>
+              {hasPermission("documents") && (
+                <NavLink to="/documents" style={getLinkStyle}>
+                  <FaFileAlt style={styles.icon} />
+                  <span style={styles.text}>Document Manager</span>
                 </NavLink>
               )}
             </>

@@ -26,6 +26,7 @@ import ServiceBillView from "./components/ServiceBillView";
 import UserType from "./components/UserType";
 import Employee from "./components/Employee";
 import Attendance from "./components/Attendance";
+import Salary from "./components/Salary";
 import UserSettings from "./components/UserSetting";
 import DiscountPage from "./components/DiscountPage"; // Import the discount page
 import CurrentCompany from "./components/CurrentCompany";
@@ -35,6 +36,10 @@ import CustomerPage from "./components/Customer";
 import EmployeeBill from "./components/EmployeeBill";
 import Warranty from "./components/Warranty";
 import PaymentTracking from "./components/PaymentTracking";
+import Expenses from "./components/Expenses";
+import Documents from "./components/Documents";
+import HotelInvoice from "./components/HotelInvoice";
+import CollectionCash from "./components/CollectionCash";
 
 function Layout() {
   const location = useLocation();
@@ -84,6 +89,7 @@ function Layout() {
           <Route path="/invoice" element={<Invoice />} />
           <Route path="/service" element={<Service/>}/>
           <Route path="/attendance" element={<Attendance />} />
+          <Route path="/salary" element={<Salary />} />
            <Route path="/userSettings" element={<UserSettings />} />
 
           <Route path="/discount" element={<DiscountPage />} />
@@ -96,6 +102,10 @@ function Layout() {
           <Route path="/serviceBillView" element={<ServiceBillView />} />
           <Route path="/warranty" element={<Warranty />} />
           <Route path="/paymenttracking" element={<PaymentTracking />} />
+          <Route path="/expenses" element={<Expenses />} />
+          <Route path="/hotel-invoice" element={<HotelInvoice />} />
+          <Route path="/collection-cash" element={<CollectionCash />} />
+          <Route path="/documents" element={<Documents />} />
         </Routes>
       </div>
     </>

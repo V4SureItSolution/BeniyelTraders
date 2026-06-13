@@ -10,6 +10,11 @@ from app.models.service import Service, ServiceBillItem
 from app.models.supplier import Supplier, Item
 from app.models.usertype import UserType
 from app.models.enquiry import Enquiry
+from app.models.buyer import Buyer
+from app.models.expense import Expense
+from app.models.document import Document
+from app.models.hotel_invoice import HotelInvoice, HotelInvoiceItem
+from app.models.collection import Collection
 
 __all__ = [
     'Attendance',
@@ -31,4 +36,11 @@ __all__ = [
     'Item',
     'UserType',
     'Enquiry',
+    'Buyer',
+    'Expense',
+    'Document',
+    'HotelInvoice',
+    'HotelInvoiceItem',
+    'Collection',
 ]
+

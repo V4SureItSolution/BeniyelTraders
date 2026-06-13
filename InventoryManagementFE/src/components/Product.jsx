@@ -1730,6 +1730,16 @@ export default function ItemsPage() {
           </label>
 
           <button
+            style={{ ...styles.button, ...styles.pendingBillButton }}
+            onClick={() => {
+              loadPendingBills();
+              setShowPendingBillsModal(true);
+            }}
+          >
+            <Clock size={16} /> Pending Bills
+          </button>
+
+          <button
             style={{ ...styles.button, ...styles.primaryButton }}
             onClick={handleAddNewItem}
           >

@@ -42,7 +42,7 @@ const InvoicePage = () => {
 
   // Company details
   const companyDetails = {
-    name: "Avva Inventory",
+    name: "Beniyel Traders",
     address: "No.71, M.T.H.road (Opp padi post office), Padi, Chennai - 600 050",
     phone: "98657 09626",
     email: "hiprintsolutions@gmail.com",
@@ -137,6 +137,39 @@ const InvoicePage = () => {
       testBackendConnection();
     }
   }, []);
+
+  const [fetchingCustomer, setFetchingCustomer] = useState(false);
+
+  const fetchCustomerByPhone = async (phone) => {
+    if (phone.length < 10) return;
+    setFetchingCustomer(true);
+    try {
+      const response = await api.get(`/billing/customer/${phone}`);
+      if (response.data && response.data.exists) {
+        const customerData = response.data.customer;
+        setCustomer({
+          name: customerData.name || '',
+          phone: customerData.phone || phone,
+          email: customerData.email || '',
+          address: customerData.address || '',
+          gstin: customerData.gst || ''
+        });
+        setSuccess('Customer/Buyer found! Details auto-filled.');
+        setTimeout(() => setSuccess(''), 3000);
+      }
+    } catch (err) {
+      console.error('Error fetching customer details:', err);
+    } finally {
+      setFetchingCustomer(false);
+    }
+  };
+
+  useEffect(() => {
+    const cleanPhone = customer.phone ? customer.phone.replace(/\D/g, '') : '';
+    if (cleanPhone.length === 10) {
+      fetchCustomerByPhone(cleanPhone);
+    }
+  }, [customer.phone]);
 
   // Fetch invoices when page changes
   useEffect(() => {
@@ -839,8 +872,8 @@ const InvoicePage = () => {
         </head>
         <body>
           <div class="header">
-            <img src="/avva-logo.jpeg" alt="Avva Inventory Logo" style="max-width: 150px; margin-bottom: 10px;">
-            <div class="company-name">Avva Inventory</div>
+            <img src="/avva-logo.jpeg" alt="Beniyel Traders Logo" style="max-width: 150px; margin-bottom: 10px;">
+            <div class="company-name">Beniyel Traders</div>
             <div class="company-details">No.71, M.T.H.road (Opp padi post office), Padi, Chennai - 600 050</div>
             <div class="company-details">Phone: 98657 09626 | Email: hiprintsolutions@gmail.com | GST: 33ABCDE1234F1Z5</div>
           </div>
@@ -919,7 +952,7 @@ const InvoicePage = () => {
           
           <div class="signature">
             <div>
-              <p><strong>For Avva Inventory</strong></p>
+              <p><strong>For Beniyel Traders</strong></p>
               <div class="signature-line"></div>
               <p>Authorized Signatory</p>
             </div>
