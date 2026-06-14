@@ -412,7 +412,7 @@ def get_bills_with_pending_items():
                 'total': round(bill.total, 2),
                 'paidAmount': round(bill.paid_amount, 2),
                 'pendingItems': pending_count,
-                'createdAt': bill.created_at.isoformat() if bill.created_at else None,
+                'createdAt': bill.created_at.isoformat() + 'Z' if bill.created_at else None,
                 'createdBy': bill.created_by,
                 'createdByName': bill.created_by_name
             })
@@ -613,7 +613,8 @@ def get_all_bills():
                 'paymentStatus': bill.payment_status,
                 'itemCount': len(bill.items),
                 'pendingItems': pending_count,
-                'createdAt': bill.created_at.isoformat() if bill.created_at else None,
+                'items': [item.to_dict() for item in bill.items],
+                'createdAt': bill.created_at.isoformat() + 'Z' if bill.created_at else None,
                 'createdBy': bill.created_by,
                 'createdByName': bill.created_by_name
             })

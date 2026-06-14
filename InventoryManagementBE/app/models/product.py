@@ -9,7 +9,7 @@ class Product(db.Model):
     name = db.Column(db.String(100), nullable=False)
     model = db.Column(db.String(100))
     type = db.Column(db.String(100))
-    watts = db.Column(db.Float)
+    watts = db.Column(db.String(100))
 
     buy_price = db.Column(db.Float, nullable=False)
     sell_price = db.Column(db.Float, nullable=False)

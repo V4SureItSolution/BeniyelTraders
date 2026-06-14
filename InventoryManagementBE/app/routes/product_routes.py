@@ -51,12 +51,8 @@ def create_product():
             return jsonify({"errors": errors}), 400
 
         # Handle watts properly
-        watts = None
-        if data.get('watts'):
-            try:
-                watts = float(data['watts'])
-            except (TypeError, ValueError):
-                watts = data['watts']  # Keep as string if not float
+         # REPLACE with this:
+        watts = data.get('watts') or None # Keep as string if not float
 
         product = Product(
             name=data.get("name", "").strip(),
@@ -148,10 +144,7 @@ def update_product(id):
         if data.get('type') is not None:
             product.type = data['type'].strip()
         if data.get('watts') is not None:
-            try:
-                product.watts = float(data['watts'])
-            except (TypeError, ValueError):
-                product.watts = data['watts']
+         product.watts = data['watts'] or None
         if data.get('buyPrice') is not None:
             product.buy_price = float(data['buyPrice'])
         if data.get('sellPrice') is not None:
